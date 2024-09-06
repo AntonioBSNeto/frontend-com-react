@@ -112,7 +112,7 @@ export const Login = () => {
 
           <div className='flex items-center gap-2'>
             <p className='text-sm'>Seu primeiro acesso na plataforma?</p>
-            <Link to='/first-access' className='text-blue-regular text-sm'>
+            <Link to='/signup' className='text-blue-regular text-sm'>
               Cadastre-se
             </Link>
           </div>
