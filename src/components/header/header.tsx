@@ -35,10 +35,9 @@ export const Header = () => {
 
   const [showSideBar, setShowSideBar] = useState(false);
 
-  console.log(showSideBar)
   const sidebarMenu = () => {
     return (
-      <div className="sm:hidden">
+      <div className="sm:hidden fixed">
         <span className="absolute text-white text-4xl top-11 left-4 cursor-pointer" onClick={() => ''}>
           <IoMdMenu className='bg-blue-regular w-8 h-8 rounded-md' onClick={() => setShowSideBar(true)} />
         </span>
