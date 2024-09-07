@@ -10,7 +10,7 @@ export const ProductCard = ({ product }: ProductProps) => {
     console.log(product)
   }
   return (
-    <div className="md:p-4 lg:p-7 p-3 border border-grayshade-50 dark:border-grayshade-300 rounded-xl dark:bg-grayshade-500 w-full justify-center justify-items-center justify-self-center">
+    <div className="md:p-4 lg:p-7 p-3 border border-grayshade-50 dark:border-grayshade-300 rounded-xl dark:bg-grayshade-500 w-full justify-center justify-items-center justify-self-center max-w-96 bg-white">
       <img src={product?.images?.[0]} alt="" className="w-full rounded-lg self-stretch h-72 min-h-52 mb-7 object-cover" />
       <div>
         <p className="font-semibold text-xl mb-2 h-auto truncate">{product?.title}</p>

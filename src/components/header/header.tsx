@@ -74,7 +74,7 @@ export const Header = () => {
   }
 
   const defaultHeader = () => (
-    <>
+    <div className="bg-white mb-7">
       <div className="w-full flex flex-col items-center">
         <div className="w-full my-5 max-w-7xl">
           <header className="px-10 flex items-center py-5 justify-center sm:justify-between w-full">
@@ -115,7 +115,7 @@ export const Header = () => {
       )} */}
         </div>
       </div>
-    </>
+    </div>
   )
 
   return (
