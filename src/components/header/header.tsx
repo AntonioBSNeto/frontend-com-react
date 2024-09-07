@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocation } from "react-router-dom";
-import logoWhiteURL from "../assets/logo-white.svg";
-import logoURL from "../assets/logo.svg";
+import logoWhiteURL from "../../assets/logo-white.svg";
+import logoURL from "../../assets/logo.svg";
 import { NavbarItem } from "./navBarItem";
 import { IoMdMenu, IoMdClose } from "react-icons/io"
 import { FaHouse } from "react-icons/fa6"
@@ -9,8 +9,6 @@ import { MdSell } from "react-icons/md"
 import { IoCart, IoLogOut } from "react-icons/io5";
 
 // import { ProfileModal } from "../collaborators/ProfileModal";
-
-
 
 export const Header = () => {
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
@@ -78,9 +76,9 @@ export const Header = () => {
 
   const defaultHeader = () => (
     <>
-      <div className="flex flex-col items-center">
-        <div className="my-5 max-w-7xl w-full">
-          <header className="mx-10 flex items-center py-5 justify-center sm:justify-between w-full">
+      <div className="w-full flex flex-col items-center">
+        <div className="w-full my-5 max-w-7xl">
+          <header className="px-10 flex items-center py-5 justify-center sm:justify-between w-full">
             <img src={logoURL} alt="V-Projects" className="w-40" />
             <nav className="hidden sm:block">
               <ul className="flex">
