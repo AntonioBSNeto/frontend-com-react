@@ -7,12 +7,13 @@ import { Spinner } from "../components/spinner"
 import { Searchbar } from "../components/home/searchBar"
 
 export const Home = () => {
-  const [products, setProducts] = useState<Product[]>([])
-  const [hasMore, setHasMore] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [products, setProducts] = useState<Product[]>([]) // armazena os produtos
+  const [hasMore, setHasMore] = useState(true); // define se a mais dados a serem carregados no infinte scroll
+  const [currentPage, setCurrentPage] = useState(1); // define a paginacao para buscar nos dados no infinte scroll
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); // termo de filtragem
 
+  // carrega os dados iniciais
   useEffect(() => {
     const getAllProducts = async () => {
       return await getProdutcs()
@@ -27,6 +28,7 @@ export const Home = () => {
 
   }, [])
 
+  // funcao para buscar mais dadso para exibir no infinte scroll
   const fetchMoreProducts = async () => {
     await getProdutcs(currentPage)
       .then(products => {

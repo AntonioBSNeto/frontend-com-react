@@ -14,7 +14,7 @@ export const Searchbar = ({ searchTerm, onSearchChange }: SearchbarProps) => {
         type="text"
         name="search"
         id="search"
-        placeholder="Buscar colaborador"
+        placeholder="Buscar produto"
         value={searchTerm}
         onChange={(e) => onSearchChange(e.target.value)}
       />

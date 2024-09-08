@@ -39,6 +39,7 @@ export const Signup = () => {
 
   const [isLoading, setIsLoading] = useState(false)
 
+  // verifica se os termos de uso foram aceitos
   const [useAndTerms, setUseAndTerms] = useState(false)
 
   const navigate = useNavigate()

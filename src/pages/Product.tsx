@@ -11,6 +11,9 @@ export const ProductPage = () => {
 
   const [product, setProduct] = useState<Product>()
 
+  // monta as informacoes do produto
+  // primeiro verificado se o produto foi passado pelo estado via rota
+  // em caso negativo faz uma requisicao pelo produto
   useEffect(() => {
     const getProduct = async () => {
       return await getProdutcById(productId)
