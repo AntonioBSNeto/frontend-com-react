@@ -1,0 +1,1 @@
+export const urlsExtractor = (url: string = '') => url.match(/https:\/\/[^\s"]+/g) || 'https://placeimg.com/640/480/any';

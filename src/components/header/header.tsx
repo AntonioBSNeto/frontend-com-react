@@ -87,7 +87,7 @@ export const Header = () => {
                   </NavbarItem>
                 </li>
                 <li>
-                  <NavbarItem isSelected={currentPath === "" || currentPath === "/360-evaluation"} href="#">
+                  <NavbarItem isSelected={currentPath === "/product/add"} href="/product/add">
                     Adicionar Produtos
                   </NavbarItem>
                 </li>
@@ -119,11 +119,11 @@ export const Header = () => {
   )
 
   return (
-    <>
+    <div className=" min-h-[100vh] flex flex-col">
       {sidebarMenu()}
       {defaultHeader()}
       <Outlet />
-    </>
+    </div>
   );
 };
 
