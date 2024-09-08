@@ -69,7 +69,6 @@ export const AddProduct = () => {
     try {
       getProduct()
         .then(product => {
-          console.log(product)
           setFormvalues(product)
         })
     } catch (error) { }

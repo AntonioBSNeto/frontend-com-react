@@ -6,7 +6,7 @@ import imgLogin from '../assets/images/img-login.png'
 import { object, string } from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { login } from '../services/api/authService'
+import { getUser, login } from '../services/api/authService'
 import { Spinner } from '../components/spinner'
 import { useAppDispatch } from '../redux/hooks'
 import { setCredentials } from '../redux/features/auth/authSlice'
@@ -39,15 +39,18 @@ export const Login = () => {
   const handleLogin: SubmitHandler<LoginInput> = async (data) => {
     try {
       setIsLoading(true)
-      const response = await login(data.email, data.password)
+      const loginResponse = await login(data.email, data.password)
+      const userResponse = await getUser(loginResponse.access_token)
+
       const user = {
-        id: response.id,
-        email: response.email,
-        name: response.name,
-        role: response.role,
-        avatar: response.avatar
+        id: userResponse.id,
+        email: userResponse.email,
+        name: userResponse.name,
+        role: userResponse.role,
+        avatar: userResponse.avatar
       }
-      dispatch(setCredentials({ user, access_token: response?.access_token, refresh_token: response?.refresh_token }))
+
+      dispatch(setCredentials({ user, access_token: loginResponse?.access_token, refresh_token: loginResponse?.refresh_token }))
       toast.success('Login bem sucedido!')
       navigate('/home')
     } catch (error) {

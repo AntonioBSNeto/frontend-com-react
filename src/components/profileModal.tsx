@@ -1,30 +1,36 @@
 import {
   HiBriefcase,
-  HiLocationMarker,
   HiMail,
   HiOutlineLogout,
   HiOutlineX,
-  HiPhone,
   HiUser,
 } from "react-icons/hi";
+import { useAppDispatch } from "../redux/hooks";
+import { logOut } from "../redux/features/auth/authSlice";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 interface ProfileModalProps {
   dataUser: {
     nameCollaborator: string;
     roleCollaborator: string;
     emailCollaborator: string;
-    phoneCollaborator: string;
     pictureCollaborator: string;
   };
   onClose: () => void;
 }
 
 export const ProfileModal = ({ dataUser, onClose }: ProfileModalProps) => {
+  const dispatch = useAppDispatch();
+
+  const navigate = useNavigate()
+
   const logout = async () => {
     try {
-     // const response = await logoutService(dataUser.tokenCollaborator);
-  
-      window.location.href = "/";
+      dispatch(logOut())
+      toast.info('Logout realizado!')
+     
+      navigate('/')
     } catch (error) {
       console.error(error);
     }
@@ -36,9 +42,7 @@ export const ProfileModal = ({ dataUser, onClose }: ProfileModalProps) => {
         <div className="flex items-center justify-between border-b pl-5 pr-3 py-2">
           <div>
             <h3 className="font-semibold">Perfil</h3>
-            <p className="text-sm font-medium text-gray-600">
-              Personalize de acordo com as suas informações.
-            </p>
+
           </div>
           <button
             onClick={onClose}
@@ -52,7 +56,7 @@ export const ProfileModal = ({ dataUser, onClose }: ProfileModalProps) => {
           <div className="flex flex-col items-center space-y-4 my-3">
             <div className="relative">
               <img
-                src={``}
+                src={dataUser.pictureCollaborator}
                 alt="profile"
                 className="w-24 h-24 rounded-full object-cover"
               />
@@ -69,7 +73,6 @@ export const ProfileModal = ({ dataUser, onClose }: ProfileModalProps) => {
               { label: 'Nome completo', value: dataUser.nameCollaborator, icon: HiUser },
               { label: 'Cargo', value: dataUser.roleCollaborator, icon: HiBriefcase },
               { label: 'Email', value: dataUser.emailCollaborator, icon: HiMail },
-              { label: 'Telefone', value: dataUser.phoneCollaborator, icon: HiPhone },
             ].map(({ label, value, icon: Icon }) => (
               <div key={label}>
                 <p className="text-sm font-semibold text-gray-700">{label}</p>

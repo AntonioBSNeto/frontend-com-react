@@ -8,15 +8,14 @@ import { FaHouse } from "react-icons/fa6"
 import { MdSell } from "react-icons/md"
 import { IoCart, IoLogOut } from "react-icons/io5";
 import { ProfileModal } from "../profileModal";
-import { useAppDispatch } from "../../redux/hooks";
-import { logOut } from "../../redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { logOut, selectCurrentUser } from "../../redux/features/auth/authSlice";
 
 // import { ProfileModal } from "../collaborators/ProfileModal";
 
 export const Header = () => {
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
 
-  const { dataUser } = { dataUser: { name: '', role: '', email: '', phone: '', picture: '' } }
   const location = useLocation(); // Usando useLocation para obter a rota atual
   const currentPath = location.pathname;
 
@@ -28,12 +27,13 @@ export const Header = () => {
     setProfileModalOpen(false);
   };
 
+  const currentUser = useAppSelector(selectCurrentUser);
+
   const profileModalData = {
-    nameCollaborator: dataUser.name,
-    roleCollaborator: dataUser.role,
-    emailCollaborator: dataUser.email,
-    phoneCollaborator: dataUser.phone,
-    pictureCollaborator: dataUser.picture,
+    nameCollaborator: currentUser.name,
+    roleCollaborator: currentUser.role,
+    emailCollaborator: currentUser.email,
+    pictureCollaborator: currentUser.avatar,
   };
 
   const [showSideBar, setShowSideBar] = useState(false);
@@ -115,8 +115,8 @@ export const Header = () => {
               <button className="rounded-full" onClick={handleAvatarClick}>
                 <img
                   className="rounded-full"
-                  src={``}
-                  alt={dataUser.name}
+                  src={currentUser.avatar}
+                  alt={currentUser.name}
                   width={48}
                 />
               </button>
