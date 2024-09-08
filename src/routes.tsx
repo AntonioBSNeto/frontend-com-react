@@ -4,6 +4,7 @@ import { Signup } from './pages/Signup'
 import { Home } from './pages/Home'
 import { Header } from './components/header/header'
 import { ProductPage } from './pages/Product'
+import { AddProduct } from './pages/AddProduct'
 
 export default function Router () {
   return (
@@ -14,6 +15,7 @@ export default function Router () {
         <Route element={<Header />}>
           <Route path="/home" element={<Home />} />
           <Route path="/product/:productId" element={<ProductPage />} />
+          <Route path="/product/add" element={<AddProduct />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -3,6 +3,7 @@ import { Link, useLocation, useParams } from "react-router-dom"
 import { Product } from "../types/product"
 import { getProdutcById } from "../services/api/productService"
 import { MdAddShoppingCart } from "react-icons/md"
+import { urlsExtractor } from "../utils/urlExtractor"
 
 export const ProductPage = () => {
   const location = useLocation()
@@ -38,7 +39,7 @@ export const ProductPage = () => {
             Editar
           </a>
           <div className="flex lg:flex-row flex-col-reverse justify-around items-center">
-            <img className="lg:w-4/6 max-sm:w-full rounded-xl object-cover" src={product?.images?.[0]} alt="" />
+            <img className="lg:w-4/6 max-sm:w-full rounded-xl object-cover" src={urlsExtractor(product?.images?.[0])[0]} alt="" />
           </div>
           <div className="lg:p-8 max-md:p-0 flex lg:min-w-96 flex-col justify-center md:pt-3">
             <p className="text-4xl max-sm:text-2xl font-semibold">{product?.title}</p>
