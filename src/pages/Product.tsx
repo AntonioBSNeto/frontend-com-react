@@ -35,9 +35,9 @@ export const ProductPage = () => {
           <Link to={'/home'} className="absolute text-xs lg:text-base flex items-center text-grayshade-300 bg-blue-regular border border-grayshade-50 px-4 py-2 top-[1%] right-[2%] rounded-full text-white" >
             Voltar
           </Link>
-          <a className="absolute text-xs lg:text-base flex items-center text-grayshade-300 bg-[#EFE090] border border-grayshade-50 px-4 py-2 top-11 sm:top-14 right-[2%] rounded-full text-[#222222]" href="/products">
+          <Link to={`/product/edit/${product?.id}`} state={{ product }} className="absolute text-xs lg:text-base flex items-center text-grayshade-300 bg-[#EFE090] border border-grayshade-50 px-4 py-2 top-11 sm:top-14 right-[2%] rounded-full text-[#222222]">
             Editar
-          </a>
+          </Link>
           <div className="flex lg:flex-row flex-col-reverse justify-around items-center">
             <img className="lg:w-4/6 max-sm:w-full rounded-xl object-cover" src={urlsExtractor(product?.images?.[0])[0]} alt="" />
           </div>

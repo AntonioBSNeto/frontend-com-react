@@ -1,11 +1,12 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { InferType, number, object, string } from "yup"
 import { Spinner } from "../components/spinner"
-import { createProduct } from "../services/api/productService"
+import { createProduct, getProdutcById, updateProduct } from "../services/api/productService"
 import { toast } from "react-toastify"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { urlsExtractor } from "../utils/urlExtractor"
 import { Product } from "../types/product"
 
 const validationSchema = object({
@@ -32,19 +33,65 @@ export const AddProduct = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors }
   } = useForm<ProductInput>({ resolver: yupResolver(validationSchema) })
 
   const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate()
+  const location = useLocation()
+  const { productId } = useParams()
+
+  const setFormvalues = (product: any) => {
+    const { title, price, description, category, images } = product
+    setValue('title', title)
+    setValue('price', price)
+    setValue('description', description)
+    setValue('categoryId', category?.id)
+    const imgUrl = urlsExtractor(images?.[0])?.[0]
+    setValue('images', imgUrl)
+  }
+
+  useEffect(() => {
+    if (!productId) {
+      return
+    }
+
+    if (location.state) {
+      setFormvalues(location.state?.product)
+      return
+    }
+
+    const getProduct = async () => {
+      return await getProdutcById(productId)
+    }
+
+    try {
+      getProduct()
+        .then(product => {
+          console.log(product)
+          setFormvalues(product)
+        })
+    } catch (error) { }
+
+  }, [])
 
   const handleProduct: SubmitHandler<ProductInput> = async (data) => {
     try {
       setIsLoading(true)
       const { title, price, description, categoryId, images } = data
-      const response = await createProduct({ title, price, description, categoryId, images: [images] })
-      toast.success('Produto criado com sucesso!')
+      const productData = {
+        title,
+        price,
+        description,
+        categoryId,
+        images: [images]
+      };
+      const response = productId
+        ? await updateProduct(productData, parseInt(productId))
+        : await createProduct(productData)
+      toast.success(`Produto ${productId ? 'salvo' : 'criado'} com sucesso!`)
       navigate(`/product/${response?.id}`)
     } catch (error) {
       if (error instanceof Error) {
@@ -58,7 +105,7 @@ export const AddProduct = () => {
   return (
     <div className="bg-[#f3f3f3] flex flex-grow py-8 px-6 sm:px-14">
       <div className="flex flex-col bg-white border border-grayshade-300 rounded-xl md:p-4 max-md:p-4 lg:p-10 w-full max-w-7xl mx-auto">
-        <h1 className="text-center text-xl font-semibold my-4">Adicionar Produto</h1>
+        <h1 className="text-center text-xl font-semibold my-4">{productId ? 'Editar Produto' : 'Adicionar Produto'}</h1>
         <form className="flex flex-col w-full gap-y-2" onSubmit={handleSubmit(handleProduct)}>
           <div className="flex flex-col">
             <label className="text-[#161616]">
@@ -96,7 +143,7 @@ export const AddProduct = () => {
             <span className="h-5 text-[#F29494]">{errors?.images?.message}</span>
           </div>
 
-          <button className="bg-blue-regular text-white w-full h-10 rounded-lg flex justify-center items-center max-w-96 mx-auto mt-4">{isLoading ? <Spinner /> : 'Cadastrar'}</button>
+          <button className="bg-blue-regular text-white w-full h-10 rounded-lg flex justify-center items-center max-w-96 mx-auto mt-4">{isLoading ? <Spinner /> : `${productId ? 'Salvar' : 'Cadastrar'}`}</button>
         </form>
       </div>
     </div>
