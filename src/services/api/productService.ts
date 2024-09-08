@@ -21,7 +21,6 @@ export const getProdutcById = async (id: string = '') => {
 
 export const createProduct = async (product: Product) => {
   try {
-    console.log(product)
     const response = await API.post(`/products`, product)
     return response.data
   } catch (error: any) {
@@ -31,7 +30,6 @@ export const createProduct = async (product: Product) => {
 
 export const updateProduct = async (product: Product, productId: number) => {
   try {
-    console.log(product)
     const response = await API.put(`/products/${productId}`, product)
     return response.data
   } catch (error: any) {
