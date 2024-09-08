@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import logoWhiteURL from "../../assets/logo-white.svg";
 import logoURL from "../../assets/logo.svg";
 import { NavbarItem } from "./navBarItem";
@@ -7,6 +7,9 @@ import { IoMdMenu, IoMdClose } from "react-icons/io"
 import { FaHouse } from "react-icons/fa6"
 import { MdSell } from "react-icons/md"
 import { IoCart, IoLogOut } from "react-icons/io5";
+import { ProfileModal } from "../profileModal";
+import { useAppDispatch } from "../../redux/hooks";
+import { logOut } from "../../redux/features/auth/authSlice";
 
 // import { ProfileModal } from "../collaborators/ProfileModal";
 
@@ -35,6 +38,14 @@ export const Header = () => {
 
   const [showSideBar, setShowSideBar] = useState(false);
 
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  const logout = () => {
+    dispatch(logOut())
+    navigate('/')
+  }
+
   const sidebarMenu = () => {
     return (
       <div className="sm:hidden fixed">
@@ -49,20 +60,21 @@ export const Header = () => {
             </div>
             <hr className="my-2 text-gray-600" />
             <div>
-              <div className="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-[rgba(255,255,255,0.2)]">
+              <div className="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-[rgba(255,255,255,0.2)]" onClick={() => { navigate('/home'); setShowSideBar(false); }}>
                 <FaHouse className='text-white' />
                 <span className="text-[15px] ml-4 text-gray-100">Home</span>
               </div>
-              <div className="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-[rgba(255,255,255,0.2)]">
+              <div className="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-[rgba(255,255,255,0.2)]"  onClick={() => { navigate('/product/add'); setShowSideBar(false); }}>
                 <MdSell className='text-white' />
                 <span className="text-[15px] ml-4 text-gray-100">Produtos</span>
               </div>
+
 
               <div className="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-[rgba(255,255,255,0.2)]">
                 <IoCart className='text-white' />
                 <span className="text-[15px] ml-4 text-gray-100">Carrinho</span>
               </div>
-              <div className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-[rgba(255,255,255,0.2)]">
+              <div onClick={() => logout()} className="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-[rgba(255,255,255,0.2)]">
                 <IoLogOut className='text-white' />
                 <span className="text-[15px] ml-4 text-gray-100">Logout</span>
               </div>
@@ -110,9 +122,9 @@ export const Header = () => {
               </button>
             </div>
           </header>
-          {/* {isProfileModalOpen && (
-        <ProfileModal dataUser={profileModalData} onClose={handleCloseModal} />
-      )} */}
+          {isProfileModalOpen && (
+            <ProfileModal dataUser={profileModalData} onClose={handleCloseModal} />
+          )}
         </div>
       </div>
     </div>

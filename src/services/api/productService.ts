@@ -38,3 +38,13 @@ export const updateProduct = async (product: Product, productId: number) => {
     throw new Error(error.response?.data?.message || 'An error occurred');
   }
 }
+
+export const removeProduct = async (productId: number) => {
+  try {
+    const response = await API.delete(`/products/${productId}`,)
+    return response.data
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || 'An error occurred');
+  }
+}
+

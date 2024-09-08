@@ -3,11 +3,10 @@ import { useEffect, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { InferType, number, object, string } from "yup"
 import { Spinner } from "../components/spinner"
-import { createProduct, getProdutcById, updateProduct } from "../services/api/productService"
+import { createProduct, getProdutcById, removeProduct, updateProduct } from "../services/api/productService"
 import { toast } from "react-toastify"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { urlsExtractor } from "../utils/urlExtractor"
-import { Product } from "../types/product"
 
 const validationSchema = object({
   title: string()
@@ -102,6 +101,34 @@ export const AddProduct = () => {
     }
   }
 
+  const [confirming, setConfirming] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+
+  useEffect(() => {
+    if (confirming) {
+      const timer = setTimeout(() => setConfirming(false), 3000); // 3 segundos para confirmar
+      return () => clearTimeout(timer);
+    }
+  }, [confirming]);
+
+  const handleClick = async () => {
+    if (confirming) {
+      try {
+        setDeleteLoading(true)
+        if(productId)
+          await removeProduct(parseInt(productId))  
+        toast.success('Produto removido com sucesso!')
+        navigate('/home')
+      } catch (error) {
+        
+      } finally {
+        setDeleteLoading(false);
+      }
+    } else {
+      setConfirming(true);
+    }
+  };
+
   return (
     <div className="bg-[#f3f3f3] flex flex-grow py-8 px-6 sm:px-14">
       <div className="flex flex-col bg-white border border-grayshade-300 rounded-xl md:p-4 max-md:p-4 lg:p-10 w-full max-w-7xl mx-auto">
@@ -142,8 +169,10 @@ export const AddProduct = () => {
             <input type="text" className="px-4 min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]" {...register('images')} autoComplete="true" />
             <span className="h-5 text-[#F29494]">{errors?.images?.message}</span>
           </div>
-
-          <button className="bg-blue-regular text-white w-full h-10 rounded-lg flex justify-center items-center max-w-96 mx-auto mt-4">{isLoading ? <Spinner /> : `${productId ? 'Salvar' : 'Cadastrar'}`}</button>
+          {productId && (
+            <button type='button' className={`${!confirming ? 'bg-rose-600' : 'bg-orange-400'} text-white w-full h-10 rounded-lg flex justify-center items-center max-w-96 mx-auto mt-4`} onClick={handleClick}>{confirming ? 'Clique novamente para confirmar' : 'Remover'}</button>
+          )}
+          <button className="bg-blue-regular text-white w-full h-10 rounded-lg flex justify-center items-center max-w-96 mx-auto">{isLoading ? <Spinner /> : `${productId ? 'Salvar' : 'Cadastrar'}`}</button>
         </form>
       </div>
     </div>

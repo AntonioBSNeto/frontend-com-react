@@ -1,6 +1,6 @@
 import { IoMdLock, IoMdMail } from 'react-icons/io'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import logoURL from '../assets/logo-white.svg'
 import imgLogin from '../assets/images/img-login.png'
 import { object, string } from 'yup'
@@ -34,14 +34,22 @@ export const Login = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
 
   const handleLogin: SubmitHandler<LoginInput> = async (data) => {
     try {
       setIsLoading(true)
       const response = await login(data.email, data.password)
-
-      dispatch(setCredentials({ user: data.email, access_token: response?.access_token, refresh_token: response?.refresh_token }))
+      const user = {
+        id: response.id,
+        email: response.email,
+        name: response.name,
+        role: response.role,
+        avatar: response.avatar
+      }
+      dispatch(setCredentials({ user, access_token: response?.access_token, refresh_token: response?.refresh_token }))
       toast.success('Login bem sucedido!')
+      navigate('/home')
     } catch (error) {
       if (error instanceof Error) {
         if (error.message === "Unauthorized") {
