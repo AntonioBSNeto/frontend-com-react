@@ -16,6 +16,7 @@ export default function Router () {
           <Route path="/home" element={<Home />} />
           <Route path="/product/:productId" element={<ProductPage />} />
           <Route path="/product/add" element={<AddProduct />} />
+          <Route path="/product/edit/:productId" element={<AddProduct />} />
         </Route>
       </Routes>
     </BrowserRouter>

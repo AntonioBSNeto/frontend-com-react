@@ -28,3 +28,13 @@ export const createProduct = async (product: Product) => {
     throw new Error(error.response?.data?.message || 'An error occurred');
   }
 }
+
+export const updateProduct = async (product: Product, productId: number) => {
+  try {
+    console.log(product)
+    const response = await API.put(`/products/${productId}`, product)
+    return response.data
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || 'An error occurred');
+  }
+}
