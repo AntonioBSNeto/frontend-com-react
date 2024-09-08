@@ -22,14 +22,12 @@ interface ProfileModalProps {
 
 export const ProfileModal = ({ dataUser, onClose }: ProfileModalProps) => {
   const dispatch = useAppDispatch();
-
   const navigate = useNavigate()
 
   const logout = async () => {
     try {
       dispatch(logOut())
       toast.info('Logout realizado!')
-     
       navigate('/')
     } catch (error) {
       console.error(error);
@@ -42,7 +40,6 @@ export const ProfileModal = ({ dataUser, onClose }: ProfileModalProps) => {
         <div className="flex items-center justify-between border-b pl-5 pr-3 py-2">
           <div>
             <h3 className="font-semibold">Perfil</h3>
-
           </div>
           <button
             onClick={onClose}

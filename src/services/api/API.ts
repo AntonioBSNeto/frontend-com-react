@@ -13,6 +13,7 @@ API.interceptors.response.use(
     return response
   },
   error => {
+    // caso haja uma solicitacao feita por um cliente com token expirado, ele e deslogado
     if (error?.response?.status === 401) {
       store.dispatch(logOut())
       localStorage.setItem('isTokenExpired', '1')

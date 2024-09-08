@@ -8,6 +8,7 @@ import { toast } from "react-toastify"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
 import { urlsExtractor } from "../utils/urlExtractor"
 
+// esquema de validacao de um produto
 const validationSchema = object({
   title: string()
     .required('Nome é um campo obrigatório'),
@@ -42,6 +43,7 @@ export const AddProduct = () => {
   const location = useLocation()
   const { productId } = useParams()
 
+  // funcao generica para preencher o formulario caso se trate de uma edicao de produto
   const setFormvalues = (product: any) => {
     const { title, price, description, category, images } = product
     setValue('title', title)
@@ -52,6 +54,7 @@ export const AddProduct = () => {
     setValue('images', imgUrl)
   }
 
+  // em caso de edicao as informacoes pode serem recebidas via location.state ou requecisao ao backend
   useEffect(() => {
     if (!productId) {
       return
@@ -75,20 +78,23 @@ export const AddProduct = () => {
 
   }, [])
 
+  // lida com adicao e modificacao dos produtos
   const handleProduct: SubmitHandler<ProductInput> = async (data) => {
     try {
       setIsLoading(true)
-      const { title, price, description, categoryId, images } = data
+      const { title, price, description, categoryId, images } = data // desestrutura os dados do formulario
       const productData = {
         title,
         price,
         description,
         categoryId,
         images: [images]
-      };
+      }; // monta os dados de maneira a ser enviado ao backend
+      // verifica se esta lidando com uma adicao ou atualizacao
       const response = productId
         ? await updateProduct(productData, parseInt(productId))
         : await createProduct(productData)
+
       toast.success(`Produto ${productId ? 'salvo' : 'criado'} com sucesso!`)
       navigate(`/product/${response?.id}`)
     } catch (error) {
@@ -100,29 +106,29 @@ export const AddProduct = () => {
     }
   }
 
+  // controlador para lidar com um delecao em duas etapas
   const [confirming, setConfirming] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
 
+  // define um timeout para aguardar a confirmacao
   useEffect(() => {
     if (confirming) {
-      const timer = setTimeout(() => setConfirming(false), 3000); // 3 segundos para confirmar
+      const timer = setTimeout(() => setConfirming(false), 2000); // 2 segundos para confirmar
       return () => clearTimeout(timer);
     }
   }, [confirming]);
 
   const handleClick = async () => {
+    // se houver um segundo clique e realizado a exclusao
     if (confirming) {
       try {
-        setDeleteLoading(true)
-        if(productId)
-          await removeProduct(parseInt(productId))  
+        if (productId)
+          await removeProduct(parseInt(productId))
         toast.success('Produto removido com sucesso!')
         navigate('/home')
       } catch (error) {
-        
-      } finally {
-        setDeleteLoading(false);
+
       }
+      // primeiro clique
     } else {
       setConfirming(true);
     }
@@ -137,41 +143,77 @@ export const AddProduct = () => {
             <label className="text-[#161616]">
               Nome do Produto*
             </label>
-            <input type="text" className="px-4 min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]" {...register('title')} autoComplete="true" />
+            <input
+              type="text"
+              className="px-4 min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]"
+              {...register('title')}
+              autoComplete="true"
+            />
             <span className="h-5 text-[#F29494]">{errors?.title?.message}</span>
           </div>
           <div className="flex flex-col">
             <label className="text-[#161616]">
               Preço do Produto*
             </label>
-            <input type="number" className="px-4 min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]" {...register('price')} autoComplete="true" />
+            <input
+              type="number"
+              className="px-4 min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]"
+              {...register('price')}
+              autoComplete="true"
+            />
             <span className="h-5 text-[#F29494]">{errors?.price?.message}</span>
           </div>
           <div className="flex flex-col">
             <label className="text-[#161616]">
               Descrição do Produto*
             </label>
-            <textarea rows={4} className="resize-none px-4 py-2  min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]" {...register('description')} autoComplete="true" />
+            <textarea
+              rows={4}
+              className="resize-none px-4 py-2  min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]"
+              {...register('description')}
+              autoComplete="true"
+            />
             <span className="h-5 text-[#F29494]">{errors?.description?.message}</span>
           </div>
           <div className="flex flex-col">
             <label className="text-[#161616]">
               Id da categoria do Produto*
             </label>
-            <input type="number" className="px-4 min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]" {...register('categoryId')} autoComplete="true" />
+            <input
+              type="number"
+              className="px-4 min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]"
+              {...register('categoryId')}
+              autoComplete="true"
+            />
             <span className="h-5 text-[#F29494]">{errors?.categoryId?.message}</span>
           </div>
           <div className="flex flex-col">
             <label className="text-[#161616]">
               URL do Produto*
             </label>
-            <input type="text" className="px-4 min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]" {...register('images')} autoComplete="true" />
+            <input
+              type="text"
+              className="px-4 min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]"
+              {...register('images')}
+              autoComplete="true"
+            />
             <span className="h-5 text-[#F29494]">{errors?.images?.message}</span>
           </div>
+          {/* botao exibido apenas na edicao de um produto */}
           {productId && (
-            <button type='button' className={`${!confirming ? 'bg-rose-600' : 'bg-orange-400'} text-white w-full h-10 rounded-lg flex justify-center items-center max-w-96 mx-auto mt-4`} onClick={handleClick}>{confirming ? 'Clique novamente para confirmar' : 'Remover'}</button>
+            <button
+              type='button'
+              className={`${!confirming ? 'bg-rose-600' : 'bg-orange-400'} text-white w-full h-10 rounded-lg flex justify-center items-center max-w-96 mx-auto mt-4`}
+              onClick={handleClick}
+            >
+              {confirming ? 'Clique novamente para confirmar' : 'Remover'}
+            </button>
           )}
-          <button className="bg-blue-regular text-white w-full h-10 rounded-lg flex justify-center items-center max-w-96 mx-auto">{isLoading ? <Spinner /> : `${productId ? 'Salvar' : 'Cadastrar'}`}</button>
+          <button
+            className="bg-blue-regular text-white w-full h-10 rounded-lg flex justify-center items-center max-w-96 mx-auto"
+          >
+            {isLoading ? <Spinner /> : `${productId ? 'Salvar' : 'Cadastrar'}`}
+          </button>
         </form>
       </div>
     </div>

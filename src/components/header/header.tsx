@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import logoWhiteURL from "../../assets/logo-white.svg";
 import logoURL from "../../assets/logo.svg";
 import { NavbarItem } from "./navBarItem";
@@ -10,14 +10,14 @@ import { IoCart, IoLogOut } from "react-icons/io5";
 import { ProfileModal } from "../profileModal";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logOut, selectCurrentUser } from "../../redux/features/auth/authSlice";
-
-// import { ProfileModal } from "../collaborators/ProfileModal";
+import { toast } from "react-toastify";
 
 export const Header = () => {
+  // controla se o modal do perfil é exibido
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
 
-  const location = useLocation(); // Usando useLocation para obter a rota atual
-  const currentPath = location.pathname;
+  const location = useLocation(); 
+  const currentPath = location.pathname; // Usando useLocation para obter a rota atual
 
   const handleAvatarClick = () => {
     setProfileModalOpen(true);
@@ -29,6 +29,7 @@ export const Header = () => {
 
   const currentUser = useAppSelector(selectCurrentUser);
 
+  // monta as informações do usuário atual para ser exibido no modal
   const profileModalData = {
     nameCollaborator: currentUser.name,
     roleCollaborator: currentUser.role,
@@ -46,6 +47,7 @@ export const Header = () => {
     navigate('/')
   }
 
+  // menu lateral exibido em telas menores
   const sidebarMenu = () => {
     return (
       <div className="sm:hidden fixed">
@@ -70,7 +72,7 @@ export const Header = () => {
               </div>
 
 
-              <div className="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-[rgba(255,255,255,0.2)]">
+              <div className="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-[rgba(255,255,255,0.2)]" onClick={() => toast.warning('Por enquanto isso não faz nada ^^')}>
                 <IoCart className='text-white' />
                 <span className="text-[15px] ml-4 text-gray-100">Carrinho</span>
               </div>
@@ -103,8 +105,8 @@ export const Header = () => {
                     Adicionar Produtos
                   </NavbarItem>
                 </li>
-                <li>
-                  <NavbarItem isSelected={currentPath === ""} href="#">
+                <li onClick={() => toast.warning('Por enquanto isso não faz nada ^^')}>
+                  <NavbarItem isSelected={currentPath === ""} href="#" >
                     Carrinho
                   </NavbarItem>
                 </li>
@@ -134,6 +136,7 @@ export const Header = () => {
     <div className=" min-h-[100vh] flex flex-col">
       {sidebarMenu()}
       {defaultHeader()}
+      {/* O outlet é usado para que o header que é comum a todas as telas seja carregado apenas uma vez */}
       <Outlet />
     </div>
   );

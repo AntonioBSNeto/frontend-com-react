@@ -40,6 +40,7 @@ export const Login = () => {
     try {
       setIsLoading(true)
       const loginResponse = await login(data.email, data.password)
+      // depois do login busca as informacoes do usuario que acabou de ser validado
       const userResponse = await getUser(loginResponse.access_token)
 
       const user = {
@@ -49,7 +50,7 @@ export const Login = () => {
         role: userResponse.role,
         avatar: userResponse.avatar
       }
-
+      // redux para manter as informacoes do usuario dentro de toda o site
       dispatch(setCredentials({ user, access_token: loginResponse?.access_token, refresh_token: loginResponse?.refresh_token }))
       toast.success('Login bem sucedido!')
       navigate('/home')
