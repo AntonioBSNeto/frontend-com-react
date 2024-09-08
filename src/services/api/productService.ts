@@ -8,3 +8,12 @@ export const getProdutcs = async (offset: number = 0, limit: number = 12) => {
     throw new Error(error.response?.data?.message || 'An error occurred');
   }
 }
+
+export const getProdutcById = async (id: string = '') => {
+  try {
+    const response = await API.get(`/products/${id}`)
+    return response.data
+  } catch (error: any) {
+    throw new Error(error.response?.data?.message || 'An error occurred');
+  }
+}

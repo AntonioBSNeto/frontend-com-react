@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import logoWhiteURL from "../../assets/logo-white.svg";
 import logoURL from "../../assets/logo.svg";
 import { NavbarItem } from "./navBarItem";
@@ -74,7 +74,7 @@ export const Header = () => {
   }
 
   const defaultHeader = () => (
-    <div className="bg-white mb-7">
+    <div className="bg-white">
       <div className="w-full flex flex-col items-center">
         <div className="w-full my-5 max-w-7xl">
           <header className="px-10 flex items-center py-5 justify-center sm:justify-between w-full">
@@ -122,6 +122,7 @@ export const Header = () => {
     <>
       {sidebarMenu()}
       {defaultHeader()}
+      <Outlet />
     </>
   );
 };
