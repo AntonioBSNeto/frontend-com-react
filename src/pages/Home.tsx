@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { Header } from "../components/header/header"
 import { ProductCard } from "../components/home/productCard"
 import { Product } from "../types/product"
 import { getProdutcs } from "../services/api/productService"
@@ -48,9 +47,8 @@ export const Home = () => {
   }
 
   return (
-    <div className="bg-[#f3f3f3]">
-      <Header />
-      <div className="w-full flex flex-col justify-center pb-14 px-4">
+    <>
+      <div className="w-full flex flex-col justify-center pb-14 px-4 pt-7 bg-[#f3f3f3]">
         <div className="mx-auto mb-6">
           <Searchbar onSearchChange={setSearchTerm} searchTerm={searchTerm} />
         </div>
@@ -72,6 +70,6 @@ export const Home = () => {
           </InfiniteScroll>
         </div>
       </div>
-    </div>
+    </>
   )
 }
