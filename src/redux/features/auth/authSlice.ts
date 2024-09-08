@@ -2,13 +2,19 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import type { RootState } from '../../store'
 
 interface AuthState {
-  user: string,
+  user: {
+    id?: number,
+    email: string,
+    name: string,
+    role: string,
+    avatar: string
+  },
   access_token: string,
   refresh_token: string
 }
 
 const initialState: AuthState = {
-  user: '', access_token: '', refresh_token: ''
+  user: { id: undefined, email: '', name: '', role: '', avatar: '' }, access_token: '', refresh_token: ''
 }
 
 const authSlice = createSlice({
@@ -22,7 +28,7 @@ const authSlice = createSlice({
       state.refresh_token = refresh_token
     },
     logOut: state => {
-      state.user = ''
+      state.user = { id: undefined, email: '', name: '', role: '', avatar: '' }
       state.access_token = ''
       state.refresh_token = ''
     }
