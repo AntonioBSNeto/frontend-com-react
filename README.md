@@ -12,7 +12,7 @@ O objetivo deste projeto é avaliar o código e design quanto à funcionalidade,
 
 ## API
 
-A API escolhida foi a do platzi fake store api, que é uma API publica para prototipar e-commerce
+A API escolhida foi a do [platzi fake store api](https://fakeapi.platzi.com/), que é uma API pública para prototipar e-commerce
 
 ## Instalação
 
