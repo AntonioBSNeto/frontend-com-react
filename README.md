@@ -18,7 +18,10 @@ A API escolhida foi a do [platzi fake store api](https://fakeapi.platzi.com/), q
 
 ```bash
 $ pnpm install
+# executar o app
 $ pnpm run dev
+# testar o app
+$ pnpm run test
 ```
 
 ## Páginas
