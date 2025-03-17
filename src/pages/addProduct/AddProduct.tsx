@@ -2,18 +2,18 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { useEffect, useState } from "react"
 import { SubmitHandler, useForm } from "react-hook-form"
 import { InferType, number, object, string } from "yup"
-import { Spinner } from "../components/spinner"
-import { createProduct, getProdutcById, removeProduct, updateProduct } from "../services/api/productService"
+import { Spinner } from "../../components/spinner"
+import { createProduct, getProdutcById, removeProduct, updateProduct } from "../../services/api/productService"
 import { toast } from "react-toastify"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
-import { urlsExtractor } from "../utils/urlExtractor"
+import { urlsExtractor } from "../../utils/urlExtractor"
 
 // esquema de validacao de um produto
 const validationSchema = object({
   title: string()
     .required('Nome é um campo obrigatório'),
   price: number()
-    .typeError('Informe um valor númerico não vazio')
+    .typeError('Preço é campo obrigatório')
     .positive('Preço precisa ser um valor positivo')
     .required('Preço é campo obrigatório'),
   description: string()
@@ -148,6 +148,7 @@ export const AddProduct = () => {
               className="px-4 min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]"
               {...register('title')}
               autoComplete="true"
+              aria-label="title"
             />
             <span className="h-5 text-[#F29494]">{errors?.title?.message}</span>
           </div>
@@ -160,6 +161,7 @@ export const AddProduct = () => {
               className="px-4 min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]"
               {...register('price')}
               autoComplete="true"
+              aria-label="price"
             />
             <span className="h-5 text-[#F29494]">{errors?.price?.message}</span>
           </div>
@@ -172,6 +174,7 @@ export const AddProduct = () => {
               className="resize-none px-4 py-2  min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]"
               {...register('description')}
               autoComplete="true"
+              aria-label="description"
             />
             <span className="h-5 text-[#F29494]">{errors?.description?.message}</span>
           </div>
@@ -184,6 +187,7 @@ export const AddProduct = () => {
               className="px-4 min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]"
               {...register('categoryId')}
               autoComplete="true"
+              aria-label="categoryId"
             />
             <span className="h-5 text-[#F29494]">{errors?.categoryId?.message}</span>
           </div>
@@ -196,6 +200,7 @@ export const AddProduct = () => {
               className="px-4 min-w-full bg-[#F7F7F8] rounded-lg h-14 border-black border-[1px]"
               {...register('images')}
               autoComplete="true"
+              aria-label="images"
             />
             <span className="h-5 text-[#F29494]">{errors?.images?.message}</span>
           </div>

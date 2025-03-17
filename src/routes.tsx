@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { Login } from './pages/Login'
 import { Signup } from './pages/Signup'
-import { Home } from './pages/Home'
+import { Home } from './pages/home/Home'
 import { Header } from './components/header/header'
 import { ProductPage } from './pages/Product'
-import { AddProduct } from './pages/AddProduct'
+import { AddProduct } from './pages/addProduct/AddProduct'
 import { NoAuthRequired, RequireAuth } from './utils/routeProtection'
-import { Cart } from './pages/cart'
+import { Cart } from './pages/Cart'
 
 export default function Router() {
   return (

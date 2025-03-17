@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import { ProductCard } from "../components/home/productCard"
-import { Product } from "../types/product"
-import { getProdutcs } from "../services/api/productService"
+import { ProductCard } from "../../components/home/productCard"
+import { Product } from "../../types/product"
+import { getProdutcs } from "../../services/api/productService"
 import InfiniteScroll from "react-infinite-scroll-component"
-import { Spinner } from "../components/spinner"
-import { Searchbar } from "../components/home/searchBar"
+import { Spinner } from "../../components/spinner"
+import { Searchbar } from "../../components/home/searchBar"
 
 export const Home = () => {
   const [products, setProducts] = useState<Product[]>([]) // armazena os produtos
@@ -74,6 +74,12 @@ export const Home = () => {
           >
             {products.length > 0 && renderProducts()}
           </InfiniteScroll>
+          {/* Botão oculto para testes */}
+          <button
+            data-testid="infinite-scroll-next"
+            onClick={fetchMoreProducts}
+            style={{ display: 'none' }}
+          />
         </div>
       </div>
     </>

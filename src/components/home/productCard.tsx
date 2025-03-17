@@ -29,7 +29,7 @@ export const ProductCard = ({ product }: ProductProps) => {
     <div className="md:p-4 lg:p-7 p-3 border border-grayshade-50 dark:border-grayshade-300 rounded-xl dark:bg-grayshade-500 w-full justify-center justify-items-center justify-self-center max-w-96 bg-white">
       <img
         src={urlsExtractor(product?.images?.[0])[0]}
-        alt=""
+        alt="Product image"
         className="w-full rounded-lg self-stretch h-72 min-h-52 mb-7 object-cover cursor-pointer"
         onClick={() => navigate(`/product/${product.id}`, { state: product })}
       />
