@@ -27,3 +27,4 @@ $ pnpm run dev
 - **/home:** Página inicial com todos os produtos.
 - **/product/add:** Página para cadastro de produtos.
 - **/product/edit/:productId** Página para atualizaçao ou remoção de produtos.
+- **/cart** Página com os itens do carrinho.
