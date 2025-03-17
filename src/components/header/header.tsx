@@ -10,13 +10,16 @@ import { IoCart, IoLogOut } from "react-icons/io5";
 import { ProfileModal } from "../profileModal";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { logOut, selectCurrentUser } from "../../redux/features/auth/authSlice";
-import { toast } from "react-toastify";
+import { selectCartItemsCount } from "../../redux/features/cart/cartSlice";
+
+import cart from '../../assets/cart.svg'
+
 
 export const Header = () => {
   // controla se o modal do perfil é exibido
   const [isProfileModalOpen, setProfileModalOpen] = useState(false);
 
-  const location = useLocation(); 
+  const location = useLocation();
   const currentPath = location.pathname; // Usando useLocation para obter a rota atual
 
   const handleAvatarClick = () => {
@@ -42,6 +45,8 @@ export const Header = () => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
+  const itemsCount = useAppSelector(selectCartItemsCount)
+
   const logout = () => {
     dispatch(logOut())
     navigate('/')
@@ -50,7 +55,7 @@ export const Header = () => {
   // menu lateral exibido em telas menores
   const sidebarMenu = () => {
     return (
-      <div className="sm:hidden fixed">
+      <div className="sm:hidden fixed z-10">
         <span className="absolute text-white text-4xl top-11 left-4 cursor-pointer" onClick={() => ''}>
           <IoMdMenu className='bg-blue-regular w-8 h-8 rounded-md' onClick={() => setShowSideBar(true)} />
         </span>
@@ -66,13 +71,13 @@ export const Header = () => {
                 <FaHouse className='text-white' />
                 <span className="text-[15px] ml-4 text-gray-100">Home</span>
               </div>
-              <div className="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-[rgba(255,255,255,0.2)]"  onClick={() => { navigate('/product/add'); setShowSideBar(false); }}>
+              <div className="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-[rgba(255,255,255,0.2)]" onClick={() => { navigate('/product/add'); setShowSideBar(false); }}>
                 <MdSell className='text-white' />
                 <span className="text-[15px] ml-4 text-gray-100">Produtos</span>
               </div>
 
 
-              <div className="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-[rgba(255,255,255,0.2)]" onClick={() => toast.warning('Por enquanto isso não faz nada ^^')}>
+              <div className="p-2.5 mt-2 flex items-center rounded-md px-4 duration-300 cursor-pointer  hover:bg-[rgba(255,255,255,0.2)]" onClick={() => navigate('/cart')}>
                 <IoCart className='text-white' />
                 <span className="text-[15px] ml-4 text-gray-100">Carrinho</span>
               </div>
@@ -105,9 +110,16 @@ export const Header = () => {
                     Adicionar Produtos
                   </NavbarItem>
                 </li>
-                <li onClick={() => toast.warning('Por enquanto isso não faz nada ^^')}>
-                  <NavbarItem isSelected={currentPath === ""} href="#" >
-                    Carrinho
+                <li onClick={() => navigate('/cart')}>
+                  <NavbarItem isSelected={currentPath === "/cart"} href="/cart" >
+                    <div className="relative">
+                      <img src={cart} alt='Carrinho' className='w-5 h-5' />
+                      {itemsCount > 0 && (
+                        <span className="absolute -top-2 -right-3 bg-blue-regular text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                          {itemsCount}
+                        </span>
+                      )}
+                    </div>
                   </NavbarItem>
                 </li>
               </ul>

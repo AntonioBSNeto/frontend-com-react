@@ -1,16 +1,18 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 
 import authReducer from './features/auth/authSlice'
+import cartReducer from './features/cart/cartSlice'
 import storage from 'redux-persist/lib/storage'
 import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist'
 
 const persistConfig = {
-  key: 'auth',
+  key: 'root',
   storage
 }
 
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
+  cart: cartReducer
 })
 
 const appReducer = (state: any, action: any) => {

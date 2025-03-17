@@ -6,6 +6,7 @@ import { Header } from './components/header/header'
 import { ProductPage } from './pages/Product'
 import { AddProduct } from './pages/AddProduct'
 import { NoAuthRequired, RequireAuth } from './utils/routeProtection'
+import { Cart } from './pages/cart'
 
 export default function Router() {
   return (
@@ -21,6 +22,7 @@ export default function Router() {
             <Route path="/product/:productId" element={<ProductPage />} />
             <Route path="/product/add" element={<AddProduct />} />
             <Route path="/product/edit/:productId" element={<AddProduct />} />
+            <Route path="/cart" element={<Cart />} />
           </Route>
         </Route>
       </Routes>

@@ -60,12 +60,16 @@ export const Home = () => {
             dataLength={products.length}
             next={fetchMoreProducts}
             hasMore={hasMore}
-            loader={<Spinner />}
+            loader={
+              <div className="col-span-full flex justify-center items-center py-4">
+                <Spinner />
+              </div>
+            }
             scrollThreshold={0.9}
             endMessage={
-              <p style={{ textAlign: 'center' }}>
+              <div className="col-span-full text-center py-4">
                 <b>Não há mais itens</b>
-              </p>
+              </div>
             }
           >
             {products.length > 0 && renderProducts()}
